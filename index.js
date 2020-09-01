@@ -9,8 +9,8 @@ const path = require('path');
         const files = await fs.promises.readdir(root);
 
         files.forEach(async (file) => {
-            console.log('Converting', file);
             if (file.indexOf('.pdf') > -1) {
+                console.log('Converting', file);
                 const filePath = path.join(root, file);
 
                 const pdf2pic = new PDF2Pic({
@@ -21,10 +21,8 @@ const path = require('path');
                     size: "600x600"         // output size in pixels
                 });
 
-                pdf2pic.convertBulk(filePath, -1).then((resolve) => {
-                    console.log("image converted successfully!");
-                    return resolve;
-                });
+                await pdf2pic.convertBulk(filePath, -1);
+                console.log('Converted', file)
             }
         });
     } catch (err) {
